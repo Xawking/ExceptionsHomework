@@ -15,13 +15,22 @@ public class ShopRepository {
 
 
     public void add(Product product) {
+        if (findById(product.id) != null) {
+            throw new AlreadyExistsException("Element with id: " + product.id + " already exists");
+        }
+        ;
+
         products = addToArray(products, product);
     }
 
     public Product[] findAll() {
         return products;
     }
-     public void remove(int id) {
+
+    public void remove(int id) {
+        if (findById(id) == null) {
+            throw new NotFoundException("Element with id: " + id + " not found");
+        }
         Product[] tmp = new Product[products.length - 1];
         int copyToIndex = 0;
         for (Product product : products) {
@@ -32,5 +41,16 @@ public class ShopRepository {
         }
         products = tmp;
     }
-}
 
+    public Product findById(int id) {
+        Product result = null;
+
+        for (Product product : products) {
+            if (product.matches(id)) {
+                result = product;
+            }
+
+        }
+        return result;
+    }
+}

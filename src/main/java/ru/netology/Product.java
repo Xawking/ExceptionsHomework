@@ -47,4 +47,9 @@ public class Product {
         return id;
     }
 
+    public boolean matches(int id) {
+        return id == getId();
+
+    }
+
 }
